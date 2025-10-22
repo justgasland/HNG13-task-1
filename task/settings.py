@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 from decouple import config
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -79,12 +80,27 @@ WSGI_APPLICATION = 'task.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
-    'default': {
+    'default': dj_database_url.config(
+        # Use DATABASE_URL environment variable if present
+        default=config('DATABASE_URL', default=None),
+        # Fallback to SQLite locally if DATABASE_URL is not set
+        conn_max_age=600
+    )
+}
+
+# Add a check to ensure we fallback to SQLite correctly if no URL is provided
+if DATABASES['default'] is None:
+    DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}
 
 
 # Password validation
@@ -164,4 +180,6 @@ LOGGING = {
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+
 
