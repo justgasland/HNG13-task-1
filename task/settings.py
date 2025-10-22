@@ -104,19 +104,33 @@ WSGI_APPLICATION = 'task.wsgi.application'
 #         'ENGINE': 'django.db.backends.sqlite3',
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         conn_max_age=600,
+#         conn_health_check=True,
+#         # The 'default' parameter provides the configuration that will be used
+#         # IF the DATABASE_URL environment variable is NOT found.
+#         # This is the standard, clean fallback to SQLite for local development.
+#         default={
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'db.sqlite3',
+#         }
+#     )
+# }
+
+
+# Database configuration
 DATABASES = {
     'default': dj_database_url.config(
+        default=config(
+            'DATABASE_URL',
+            default=f'sqlite:///{BASE_DIR / "db.sqlite3"}'
+        ),
         conn_max_age=600,
-        conn_health_check=True,
-        # The 'default' parameter provides the configuration that will be used
-        # IF the DATABASE_URL environment variable is NOT found.
-        # This is the standard, clean fallback to SQLite for local development.
-        default={
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+        conn_health_checks=True,
     )
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
