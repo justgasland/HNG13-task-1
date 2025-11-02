@@ -4,56 +4,24 @@ from collections import Counter
 
 
 def calculate_sha256(value):
-    """
-    Calculate SHA-256 hash of a string
-    
-    Args:
-        value (str): The string to hash
-    
-    Returns:
-        str: The SHA-256 hash in hexadecimal format
-    """
+   
     return hashlib.sha256(value.encode('utf-8')).hexdigest()
 
 
 def check_palindrome(value):
-    """
-    Check if a string is a palindrome (case-insensitive)
-    
-    Args:
-        value (str): The string to check
-    
-    Returns:
-        bool: True if palindrome, False otherwise
-    """
+   
     # Convert to lowercase for case-insensitive comparison
     cleaned = value.lower()
     return cleaned == cleaned[::-1]
 
 
 def count_unique_characters(value):
-    """
-    Count the number of unique characters in a string
     
-    Args:
-        value (str): The string to analyze
-    
-    Returns:
-        int: Number of unique characters
-    """
     return len(set(value))
 
 
 def count_words(value):
-    """
-    Count the number of words in a string (separated by whitespace)
     
-    Args:
-        value (str): The string to analyze
-    
-    Returns:
-        int: Number of words
-    """
     return len(value.split())
 
 
